@@ -9,11 +9,22 @@ const cargarArchivo = async (req, res = response) => {
     return;
   }
 
-  const nombre = await subirArchivo(req.files);
+  try {
+    const nombre = await subirArchivo(req.files, undefined, "imgs");
+    return res.json({ nombre });
+  } catch (msg) {
+    res.status(400).json({
+      msg,
+    });
+  }
+};
 
-  return res.json({ nombre });
+const actualizarImagen = async (req, res = response) => {
+  const { id, coleccion } = req.params;
+  res.json({ id, coleccion });
 };
 
 module.exports = {
   cargarArchivo,
+  actualizarImagen,
 };
